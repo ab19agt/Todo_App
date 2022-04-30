@@ -1,60 +1,39 @@
 /** @format */
 
-import React, { Component } from "react";
-import { useState, useEffect } from "react";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase.config";
-function TodoList(props) {
-  useEffect(() => {
-    getTodos();
-  }, []);
-  const [todo, setTodo] = useState([]);
-  const colref = collection(db, "todo");
-  function getTodos() {
-    getDocs(colref).then((dos) => {
-      setTodo(
-        dos.docs.map((values) => ({
-          id: values.id,
-          todos: values.data().Todo,
-          inProgress: values.data().inprogress,
-        }))
-      );
-    });
+import { Button, ListItemButton, ListItemText } from "@mui/material";
+function TodoList(id) {
+  function deleteTodo() {
+    deleteDoc(doc(db, "todo", id.id));
   }
-  function todolists() {
-    let v = [];
-
-    /* for (let i = 0; i < todo.length; i++) {
-      console.log(todo[i].id);
-      v.push(
-        <div>
-          <li>{todo[i].todos}</li>
-          <button id={todo[i].id} onClick={deleteTodo(todo[i].id)}>
-            delete
-          </button>
-        </div>
-      );
-    } */
-
-    console.log(v);
-    return v;
+  function toggleInProgress() {
+    id.inProgress
+      ? updateDoc(colref, { inprogress: false })
+      : updateDoc(colref, { inprogress: true });
   }
-  function deleteTodo(id) {
-    deleteDoc(doc(db, "todo", id));
-  }
+  const colref = doc(db, "todo", id.id);
 
   return (
-    <div>
-      <ul>
-        {todo.map((dt) => {
-          return (
-            <div>
-              <li>{dt.todos}</li>
-              <button onClick={deleteTodo(dt.id)}>delete</button>
-            </div>
-          );
-        })}
-      </ul>
+    <div
+      style={{
+        display: "flex",
+        width: "90vw",
+        maxWidth: "500px",
+        marginTop: "24px",
+      }}
+    >
+      <ListItemButton component="a" href="#simple-list">
+        <ListItemText
+          primary={id.todo}
+          secondary={id.inProgress ? "Not done" : "is done"}
+          key={id.id}
+        />
+      </ListItemButton>
+      <Button onClick={toggleInProgress}>
+        {id.inProgress ? "Done" : "UnDone"}
+      </Button>
+      <Button onClick={deleteTodo}>X</Button>
     </div>
   );
 }

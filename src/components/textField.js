@@ -1,11 +1,12 @@
 /** @format */
 
 import { collection, serverTimestamp } from "firebase/firestore";
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { db } from "../firebase.config";
 import { addDoc } from "firebase/firestore";
+import { TextField, Button } from "@mui/material";
 
-function TextField() {
+function Textfield() {
   const colref = collection(db, "todo");
   const [todos, setTodos] = useState("");
 
@@ -17,30 +18,31 @@ function TextField() {
       Todo: todos,
       inprogress: true,
       timestamp: serverTimestamp(),
-    }).then((snapshot) => {
-      console.log(snapshot.docs);
     });
+    setTodos("");
   }
 
   return (
     <div>
       <div>
         <form>
-          <input
-            id="todoinput"
+          <TextField
+            style={{ width: "90vw", maxWidth: "500px" }}
+            id="standard-basic"
+            label=""
+            value={todos}
+            variant="standard"
             className="m-2"
-            type={"text"}
-            label={"Todo"}
             onChange={(e) => {
               setTodos(e.target.value);
             }}
           />
-          <button className="m-2" type={"submit"} onClick={addtodo}>
-            click me!
-          </button>
+          <Button variant="text" onClick={addtodo}>
+            Add
+          </Button>
         </form>
       </div>
     </div>
   );
 }
-export default TextField;
+export default Textfield;

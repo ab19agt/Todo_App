@@ -4,15 +4,11 @@ import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { Button, ListItemButton, ListItemText } from "@mui/material";
 function TodoList(id) {
-  function deleteTodo() {
+  /* function deleteTodo() {
     deleteDoc(doc(db, "todo", id.id));
-  }
-  function toggleInProgress() {
-    id.inProgress
-      ? updateDoc(colref, { inprogress: false })
-      : updateDoc(colref, { inprogress: true });
-  }
-  const colref = doc(db, "todo", id.id);
+  } */
+
+  /*  const colref = doc(db, "todo", id.id); */
 
   return (
     <div
@@ -25,15 +21,15 @@ function TodoList(id) {
     >
       <ListItemButton component="a" href="#simple-list">
         <ListItemText
-          primary={id.todo}
+        /* primary={id.todo}
           secondary={id.inProgress ? "Not done" : "is done"}
-          key={id.id}
+          key={id.id} */
         />
       </ListItemButton>
-      <Button onClick={toggleInProgress}>
+      {/*      <Button onClick={toggleInProgress}>
         {id.inProgress ? "Done" : "UnDone"}
-      </Button>
-      <Button onClick={deleteTodo}>X</Button>
+      </Button> */}
+      {/*  <Button onClick={deleteTodo}>X</Button> */}
     </div>
   );
 }

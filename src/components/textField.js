@@ -1,27 +1,19 @@
 /** @format */
 
 import { collection, serverTimestamp } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import { db } from "../firebase.config";
-import { addDoc } from "firebase/firestore";
 import { TextField, Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { addtodo } from "../redux/todoapplist";
 
 function Textfield() {
   const colref = collection(db, "todo");
-  const [todos, setTodos] = useState("");
-
-  function addtodo(e) {
-    e.preventDefault();
-
-    console.log(todos);
-    addDoc(colref, {
-      Todo: todos,
-      inprogress: true,
-      timestamp: serverTimestamp(),
-    });
-    setTodos("");
+  const dispatch = useDispatch();
+  let input = "";
+  function dispatchtodo() {
+    dispatch(addtodo({ text: input }));
   }
-
   return (
     <div>
       <div>
@@ -30,14 +22,15 @@ function Textfield() {
             style={{ width: "90vw", maxWidth: "500px" }}
             id="standard-basic"
             label=""
-            value={todos}
             variant="standard"
             className="m-2"
             onChange={(e) => {
-              setTodos(e.target.value);
+              e.preventDefault();
+
+              input = e.target.value;
             }}
           />
-          <Button variant="text" onClick={addtodo}>
+          <Button variant="text" onClick={dispatchtodo}>
             Add
           </Button>
         </form>

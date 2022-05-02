@@ -9,7 +9,7 @@ import { db } from "./firebase.config";
 import { Card } from "@mui/material";
 
 function App() {
-  useEffect(() => {
+  /* useEffect(() => {
     onSnapshot(collection(db, "todo"), (dos) => {
       setTodo(
         dos.docs.map((values) => ({
@@ -19,9 +19,7 @@ function App() {
         }))
       );
     });
-  }, []);
-  const [todo, setTodo] = useState([]);
-  const colref = collection(db, "todo");
+  }, []); */
 
   return (
     <div
@@ -36,7 +34,7 @@ function App() {
       <h2>Todo App</h2>
       <Card variant="Basic" style={{ padding: "20px" }}>
         <Textfield />
-        <ul>
+        {/* <ul>
           {todo.map((dt) => {
             return (
               <TodoList
@@ -48,7 +46,7 @@ function App() {
               />
             );
           })}
-        </ul>
+        </ul> */}
       </Card>
     </div>
   );
